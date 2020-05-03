@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GeofenceExample</string>
+
+    <string name="geofence_title">You are inside the Geo-fence zone</string>
+</resources>

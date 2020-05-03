@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.compileSdk
+
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdk
+        targetSdkVersion rootProject.targetSdk
+        versionCode 1
+        versionName "1.0"
+        resValue("string", "google_maps_key", localProperties['mapsApiKey'])
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //Arch Components
+    implementation "androidx.lifecycle:lifecycle-extensions:$archExt"
+
+    //Appcompat
+    implementation "androidx.appcompat:appcompat:$appCompat"
+    implementation "com.google.android.material:material:$material"
+
+    //Map
+    implementation "com.google.android.gms:play-services-maps:$map"
+    implementation "com.google.android.gms:play-services-location:$map"
+    implementation "com.google.maps.android:android-maps-utils:$mapUtil"
+
+    //DI
+    implementation "org.koin:koin-android:$koin"
+    implementation "org.koin:koin-androidx-scope:$koin"
+    implementation "org.koin:koin-androidx-viewmodel:$koin"
+}
